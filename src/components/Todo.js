@@ -1,10 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const todo = props => {
   const [todoName, setTodoName] = useState('');
-  const [todoList, settodoList] = useState([]);
+  const [todoList, setTodoList] = useState([]);
   //   const [todoState, setTodoState] = useState({ userInput: '', todoList: [] });
+
+  useEffect(() => {
+    axios
+      .get('https://react-hooks-ff4e9.firebaseio.com/todos.json')
+      .then(result => {
+        console.log(result);
+        const todoData = result.data;
+        const todos = [];
+        for (let key in todoData) {
+          todos.push({ id: key, name: todoData[key].name });
+        }
+        setTodoList(todos);
+      });
+  });
 
   const inputChangeHandler = event => {
     // setTodoState({
@@ -19,7 +33,7 @@ const todo = props => {
     //   userInput: todoState.userInput,
     //   todoList: todoState.todoList.concat(todoState.userInput)
     // });
-    settodoList(todoList.concat(todoName));
+    setTodoList(todoList.concat(todoName));
     axios
       .post('https://react-hooks-ff4e9.firebaseio.com/todos.json', {
         name: todoName
@@ -45,7 +59,7 @@ const todo = props => {
       </button>
       <ul>
         {todoList.map(todo => (
-          <li key={todo}>{todo}</li>
+          <li key={todo.id}>{todo.name}</li>
         ))}
       </ul>
     </React.Fragment>
