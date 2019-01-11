@@ -68,13 +68,13 @@ const todo = props => {
   //     setTodoName(event.target.value);
   //   };
 
-  const todoName = todoInputRef.current.value;
-
   const todoAddHandler = () => {
     // setTodoState({
     //   userInput: todoState.userInput,
     //   todoList: todoState.todoList.concat(todoState.userInput)
     // });
+
+    const todoName = todoInputRef.current.value;
 
     axios
       .post('https://react-hooks-ff4e9.firebaseio.com/todos.json', {
