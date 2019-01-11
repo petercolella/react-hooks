@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const todo = props => {
   const [todoName, setTodoName] = useState('');
-  const [submittedTodo, setSubmittedTodo] = useState(null);
+  //   const [submittedTodo, setSubmittedTodo] = useState(null);
   //   const [todoList, setTodoList] = useState([]);
   //   const [todoState, setTodoState] = useState({ userInput: '', todoList: [] });
 
@@ -50,14 +50,14 @@ const todo = props => {
     };
   }, []);
 
-  useEffect(
-    () => {
-      if (submittedTodo) {
-        dispatch({ type: 'ADD', payload: submittedTodo });
-      }
-    },
-    [submittedTodo]
-  );
+  //   useEffect(
+  //     () => {
+  //       if (submittedTodo) {
+  //         dispatch({ type: 'ADD', payload: submittedTodo });
+  //       }
+  //     },
+  //     [submittedTodo]
+  //   );
 
   const inputChangeHandler = event => {
     // setTodoState({
@@ -80,12 +80,21 @@ const todo = props => {
       .then(res => {
         setTimeout(() => {
           const todoItem = { id: res.data.name, name: todoName };
-          setSubmittedTodo(todoItem);
+          dispatch({ type: 'ADD', payload: todoItem });
         }, 3000);
       })
       .catch(err => {
         console.log(err);
       });
+  };
+
+  const todoRemoveHandler = todoId => {
+    axios
+      .delete(`https://react-hooks-ff4e9.firebaseio.com/todos/${todoId}.json`)
+      .then(res => {
+        dispatch({ type: 'REMOVE', payload: todoId });
+      })
+      .catch(err => console.log(err));
   };
 
   return (
@@ -101,7 +110,9 @@ const todo = props => {
       </button>
       <ul>
         {todoList.map(todo => (
-          <li key={todo.id}>{todo.name}</li>
+          <li key={todo.id} onClick={todoRemoveHandler.bind(this, todo.id)}>
+            {todo.name}
+          </li>
         ))}
       </ul>
     </React.Fragment>
