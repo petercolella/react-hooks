@@ -1,16 +1,21 @@
-import React, { useState, useEffect, useReducer, useRef, useMemo } from 'react';
+import React, {
+  /*useState,*/
+  useEffect,
+  useReducer,
+  /*useRef,*/ useMemo
+} from 'react';
 import axios from 'axios';
 
 import List from './List';
 import { useFormInput } from '../hooks/forms';
 
 const todo = props => {
-  const [inputIsValid, setInputIsValid] = useState(false);
+  //   const [inputIsValid, setInputIsValid] = useState(false);
   //   const [todoName, setTodoName] = useState('');
   //   const [submittedTodo, setSubmittedTodo] = useState(null);
   //   const [todoList, setTodoList] = useState([]);
   //   const [todoState, setTodoState] = useState({ userInput: '', todoList: [] });
-  const todoInputRef = useRef();
+  //   const todoInputRef = useRef();
   const todoInput = useFormInput();
 
   const todoListReducer = (state, action) => {
@@ -45,17 +50,17 @@ const todo = props => {
     };
   }, []);
 
-  const mouseMoveHandler = event => {
-    console.log(event.clientX, event.clientY);
-  };
+  //   const mouseMoveHandler = event => {
+  //     console.log(event.clientX, event.clientY);
+  //   };
 
-  const inputValidationHandler = event => {
-    if (event.target.value.trim() === '') {
-      setInputIsValid(false);
-    } else {
-      setInputIsValid(true);
-    }
-  };
+  //   const inputValidationHandler = event => {
+  //     if (event.target.value.trim() === '') {
+  //       setInputIsValid(false);
+  //     } else {
+  //       setInputIsValid(true);
+  //     }
+  //   };
 
   //   useEffect(() => {
   //     document.addEventListener('mousemove', mouseMoveHandler);
