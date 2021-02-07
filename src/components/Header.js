@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useContext } from "react";
 
-import AuthContext from '../auth-context';
+import AuthContext from "../auth-context";
 
-const header = props => {
+const Header = (props) => {
   const auth = useContext(AuthContext);
 
   return (
@@ -15,4 +15,4 @@ const header = props => {
   );
 };
 
-export default header;
+export default Header;

@@ -2,14 +2,14 @@ import React, {
   /*useState,*/
   useEffect,
   useReducer,
-  /*useRef,*/ useMemo
-} from 'react';
-import axios from 'axios';
+  /*useRef,*/ useMemo,
+} from "react";
+import axios from "axios";
 
-import List from './List';
-import { useFormInput } from '../hooks/forms';
+import List from "./List";
+import { useFormInput } from "../hooks/forms";
 
-const todo = props => {
+const Todo = (props) => {
   //   const [inputIsValid, setInputIsValid] = useState(false);
   //   const [todoName, setTodoName] = useState('');
   //   const [submittedTodo, setSubmittedTodo] = useState(null);
@@ -20,12 +20,12 @@ const todo = props => {
 
   const todoListReducer = (state, action) => {
     switch (action.type) {
-      case 'ADD':
+      case "ADD":
         return state.concat(action.payload);
-      case 'SET':
+      case "SET":
         return action.payload;
-      case 'REMOVE':
-        return state.filter(todo => todo.id !== action.payload);
+      case "REMOVE":
+        return state.filter((todo) => todo.id !== action.payload);
       default:
         return state;
     }
@@ -35,18 +35,18 @@ const todo = props => {
 
   useEffect(() => {
     axios
-      .get('https://react-hooks-ff4e9.firebaseio.com/todos.json')
-      .then(result => {
+      .get("https://react-hooks-ff4e9.firebaseio.com/todos.json")
+      .then((result) => {
         console.log(result);
         const todoData = result.data;
         const todos = [];
         for (let key in todoData) {
           todos.push({ id: key, name: todoData[key].name });
         }
-        dispatch({ type: 'SET', payload: todos });
+        dispatch({ type: "SET", payload: todos });
       });
     return () => {
-      console.log('Cleanup');
+      console.log("Cleanup");
     };
   }, []);
 
@@ -95,27 +95,27 @@ const todo = props => {
     const todoName = todoInput.value;
 
     axios
-      .post('https://react-hooks-ff4e9.firebaseio.com/todos.json', {
-        name: todoName
+      .post("https://react-hooks-ff4e9.firebaseio.com/todos.json", {
+        name: todoName,
       })
-      .then(res => {
+      .then((res) => {
         setTimeout(() => {
           const todoItem = { id: res.data.name, name: todoName };
-          dispatch({ type: 'ADD', payload: todoItem });
+          dispatch({ type: "ADD", payload: todoItem });
         }, 3000);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
-  const todoRemoveHandler = todoId => {
+  const todoRemoveHandler = (todoId) => {
     axios
       .delete(`https://react-hooks-ff4e9.firebaseio.com/todos/${todoId}.json`)
-      .then(res => {
-        dispatch({ type: 'REMOVE', payload: todoId });
+      .then((res) => {
+        dispatch({ type: "REMOVE", payload: todoId });
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -126,7 +126,7 @@ const todo = props => {
         onChange={todoInput.onChange}
         value={todoInput.value}
         style={{
-          backgroundColor: todoInput.validity === true ? 'transparent' : 'red'
+          backgroundColor: todoInput.validity === true ? "transparent" : "red",
         }}
       />
       <button type="button" onClick={todoAddHandler}>
@@ -142,4 +142,4 @@ const todo = props => {
   );
 };
 
-export default todo;
+export default Todo;
